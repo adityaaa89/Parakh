@@ -16,8 +16,8 @@ if (typeof window !== 'undefined') {
 
 import { CaseItem } from '@/app/page'
 
-const MAP_URL = 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
-const MAP_ATTR = '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
+const MAP_URL = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png'
+const MAP_ATTR = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 
 const toneColor = (n: number) => n >= 90 ? '#f04444' : n >= 70 ? '#ed9564' : n >= 50 ? '#d6a84f' : '#38b7a5'
 
@@ -77,7 +77,7 @@ export function OverviewMap({ cases, onSelectCase }: { cases: CaseItem[], onSele
   return (
     <div style={{ position: 'absolute', inset: 0, overflow: 'hidden' }}>
       <MapContainer center={[22, 79]} zoom={5} style={{ height: '100%', width: '100%', background: '#121c24' }} zoomControl={false}>
-        <TileLayer url={MAP_URL} attribution={MAP_ATTR} />
+        <TileLayer url={MAP_URL} className="map-tiles" attribution={MAP_ATTR} />
         <HeatmapNodes cases={cases} onSelectCase={onSelectCase} />
       </MapContainer>
       
@@ -134,7 +134,7 @@ export function LocationPredictionPanel({ selected }: { selected: CaseItem }) {
       <div className="grid gap-3 md:grid-cols-[1fr_180px]">
         <div style={{ height: '155px', border: '1px solid var(--steel)' }}>
           <MapContainer center={[active.lat, active.lng]} zoom={14} style={{ height: '100%', width: '100%', background: '#14212a' }} zoomControl={false}>
-            <TileLayer url={MAP_URL} attribution={MAP_ATTR} />
+            <TileLayer url={MAP_URL} className="map-tiles" attribution={MAP_ATTR} />
             <MapLinker center={[active.lat, active.lng]} zoom={15} />
             {preds.map(p => (
               <React.Fragment key={p.rank}>
@@ -206,7 +206,7 @@ export function FieldMap({ selected }: { selected: CaseItem }) {
     <div style={{ position: 'relative' }}>
       <div style={{ height: '155px', border: '1px solid var(--steel)', background: '#14212a' }}>
         <MapContainer bounds={[[officerLat, officerLng], [selected.lat, selected.lng]]} style={{ height: '100%', width: '100%' }} zoomControl={false}>
-          <TileLayer url={MAP_URL} attribution={MAP_ATTR} />
+          <TileLayer url={MAP_URL} className="map-tiles" attribution={MAP_ATTR} />
           <Marker position={[selected.lat, selected.lng]} icon={pulsingIcon} />
           <Marker position={[officerLat, officerLng]} icon={officerIcon} />
           <Polyline positions={[[officerLat, officerLng], [selected.lat, selected.lng]]} color="#2b7fff" weight={4} dashArray="5, 10" />
